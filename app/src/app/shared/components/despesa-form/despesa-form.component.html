@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="form-box row">
+            <div class="col-12">
+                <h2 class="title">{{title}}</h2>
+                <form class="despesaForm" [formGroup]="despesaForm" >
+                    <label class="col-12" [ngClass]="{'d-none': parent=='registrar'}">
+                       <span class="input-name">Id</span>
+                        <input class="input-style" type="text" formControlName="id">
+                    </label>
+                    <label class="col-12">
+                        <span class="input-name">Data</span>
+                        <input class="input-style"type="date" formControlName="date">
+                    </label>
+
+                    <label class="col-12">
+                        <span class="input-name">Tipo:</span>
+                        <select class="input-style" name="tipo" id="tipo" formControlName="type">
+                            <option *ngFor="let item of tipoDespesas" value="{{item.id}}">{{item.nome}}</option>
+                        </select>
+                    </label>
+
+                    <label class="col-12">
+                        <span class="input-name">Valor:</span>
+                        <input class="input-style" currencyMask type="text" step="any" min="0" formControlName="value"
+                            [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+                    </label>
+
+                    <label class="col-12">
+                        <span class="input-name">Descrição:</span>
+                        <input class="input-style" type="text" formControlName="description">
+                    </label>
+                </form>
+
+                <div class="button-style">
+                    <button type="button" (click)="onSubmit()" class="btn btn-light" [disabled]="!despesaForm.valid" >{{parent}}</button>
+                </div>
+                
+
+            </div>
+        
+    </div> 
+</div>

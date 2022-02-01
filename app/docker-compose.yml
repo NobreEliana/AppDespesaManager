@@ -1,0 +1,23 @@
+version: '3.3'
+services:
+  # nginx:
+  #   depends_on:
+  #     - app_despesamanager
+  #     - api_despesamanager
+  #   restart: on-failure # because it is routing traffic to our entire app
+  #   build:
+  #     dockerfile: Dockerfile
+  #     context: ./nginx
+  #   ports:
+  #     - '8080:8080'  
+  app_despesamanager:
+    # depends_on:
+    #   - api_despesamanager
+    build:
+      dockerfile: Dockerfile
+      context: ./
+    # ports:
+    #   - "4200:8080"
+    container_name: app_despesamanager
+    # networks:
+    #   - despesamanager

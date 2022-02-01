@@ -1,0 +1,60 @@
+version: '3.3'
+services:
+  # nginx:
+  #   depends_on:
+  #     - app_despesamanager
+  #     - api_despesamanager
+  #   restart: on-failure # because it is routing traffic to our entire app
+  #   build:
+  #     dockerfile: Dockerfile
+  #     context: ./nginx
+  #   ports:
+  #     - '8080:8080'  
+  app_despesamanager:
+    # depends_on:
+    #   - api_despesamanager
+    build:
+      dockerfile: Dockerfile
+      context: ./app
+    # ports:
+    #   - "4200:8080"
+    container_name: app_despesamanager
+    # networks:
+    #   - despesamanager
+  api_despesamanager:  
+    depends_on:
+      - mysql_despesamanager
+    build:
+      dockerfile: Dockerfile
+      context: ./api
+    ports:
+      - "5000:5000"
+    # expose:
+    #   - '5000'
+    # networks:
+    #   - despesamanager
+    container_name: api_despesamanager
+    env_file:
+      - ./env/backend.env
+    restart: on-failure
+  mysql_despesamanager:
+    image: mysql/mysql-server
+    container_name: mysql_despesamanager
+    ports:
+      - "3306:3306"
+    # expose:
+    #   - '3306'
+    # networks:
+    #   - despesamanager
+    volumes:
+    #- ./db_mysql/.data/db:/var/lib/mysql
+      - /var/lib/mysql      
+    #  - "./db_mysql/mysql-init.sh:/mysql-init.sh"
+    #command: "sh /mysql-init.sh"
+    #command: --default-authentication-plugin=mysql_native_password
+    env_file:
+      - ./env/mysql.env
+
+# networks:
+#   despesamanager:
+#     driver: 'bridge'

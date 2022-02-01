@@ -1,0 +1,62 @@
+
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class=" search-form ">
+      <!-- <span>Consultar por:</span> -->
+      <div class="col-12">
+        <form class="despesaForm" [formGroup]="searchForm">
+          <label>
+            Data:
+            <input class="input-style" type="date" formControlName="date">
+          </label>
+          <label>
+            Tipo:
+            <select class="input-style" name="tipo" id="tipo" formControlName="type" >
+              <option *ngFor="let item of tipoDespesas" value="{{item.id}}">{{item.nome}}</option>
+            </select>
+          </label>
+          <label>
+            Descrição:
+            <input class="input-style" type="text" formControlName="description" >
+          </label>
+          <label>
+            Valor:
+            <input class="input-style" currencyMask type="text" step="any" min="0" formControlName="value"
+              [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }">
+          </label>
+
+          <button type="submit" class="btn btn-search" [disabled]="!searchForm.valid"
+            (click)="filtrarDespesas()"><fa-icon class="icons" [icon]="faSearch"></fa-icon></button>
+          <button class=" clear-btn btn btn-primary btn-md" type="submit"  (click)="limparCampos()" >Limpar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center despesas-list">
+    <div class="col-12 list">
+      <ul class="list-unstyled list-1">
+        <li class="row  title-list">
+          <div class="col-2"><span>Data</span></div>
+          <div class="col-2"><span>Tipo</span></div>
+          <div class="col-4"><span>Descrição</span></div>
+          <div class="col-2"><span>Valor</span></div>
+        </li>
+        <li class="row list-item" *ngFor=" let item of listaDespesa">
+          <div class="col-2 list-content"><span>{{item.date}}</span></div>
+          <div class="col-2 list-content"><span>{{item.type | type_despesa}}</span></div>
+          <div class="col-4 list-content"><span>{{item.description}}</span></div>
+          <div class="col-2 list-content"><span>{{item.value}}</span></div>
+          <div class="col-1 list-content"><a (click)="deleteDespesa(item.id)">
+              <fa-icon class="text-danger" [icon]="faTrashAlt"></fa-icon>
+            </a></div>
+          <div class="col-1 list-content"><a [routerLink]="['/alterar',item.id]">
+              <fa-icon  class="text-warning" [icon]="faEdit"></fa-icon>
+            </a></div>
+
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
